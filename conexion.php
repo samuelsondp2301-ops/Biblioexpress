@@ -1,15 +1,21 @@
 <?php
+$driver = 'mysql'; 
 $host = 'localhost';
 $dbname = 'biblio_express';
 $username = 'root';
-$password = 'root'; 
+$password = 'root';
 
 try {
-    $conexion = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    if ($driver === 'pgsql') {
+        $conexion = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+    } else {
+        $conexion = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    }
     
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 } catch (PDOException $e) {
-    echo "Error de conexión: " . $e->getMessage();
+    echo "Error en la conexión a la base de datos.";
     exit();
 }
 ?>
